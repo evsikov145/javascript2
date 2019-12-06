@@ -8,49 +8,46 @@
     <link rel="stylesheet" href="reset.css">
     <style>
         header {
-            min-height: 100px;
-            border: 1px solid #000;
-            border-radius: 15px;
-            max-width: 1400px;
+            display: flex;
+            border-bottom: 1px solid #000;
+            justify-content: flex-end;
             margin: 0 auto;
+            padding: 20px 60px;
         }
-        .basket {
-            float: right;
-            min-height: 50px;
-            min-width: 250px;
-            border-radius: 15px;
+        .cart-button {
+            padding: 10px 30px;
+            border-radius: 5px;
             font-weight: bold;
-            margin: 25px 5% 0 0;
         }
-        .list {
+        .goods-list {
             margin-top: 60px;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-evenly;
             align-items: center;
         }
-        .list-item {
-            max-width: 300px;
+        .goods-item {
+            min-width: 300px;
             min-height: 300px;
             border: 1px solid #000;
-            border-radius: 15px;
+            border-radius: 5px;
             text-align: center;
             margin: 20px;
         }
 
-        .list-item img {
+        .goods-item img {
             margin-top: 40px;
             width: 50%;
         }
 
-        .list-item h3 {
+        .goods-item h3 {
             font-size: 30px;
             text-transform: uppercase;
             text-decoration: underline;
             margin-top: 40px;
         }
 
-        .list-item p {
+        .goods-item p {
             margin-top: 20px;
             font-size: 24px;
         }
@@ -58,10 +55,10 @@
 </head>
 <body>
     <header>
-        <button class="basket">Корзина</button>
+        <button class="cart-button">Корзина</button>
     </header>
     <main>
-        <div class="list"></div>
+        <div class="goods-list"></div>
     </main>
     <script src="index.js"></script>
 </body>

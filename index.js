@@ -1,21 +1,49 @@
-const goods = [
-    {title: 'Shirt', price: 150},
-    {title: 'Jacket', price: 250},
-    {title: 'Shoes', price: 350},
-    {title: 'Hat', price: 450},
-    {title: 'Coat', price: 550},
-    {title: 'T-shirt', price: 650},
-    {title: 'Shorts', price: 750},
-    {title: 'Glasses', price: 850}
-];
+class GoodsItem {
+    constructor(title = 'Без имени', price = '') {
+        this.title = title;
+        this.price = price;
+    }
+    render() {
+        return `<div class="goods-item">
+                    <img scr="foto.jpg" alt="фото">
+                    <h3 class="title goods-title">${this.title}</h3>
+                    <p>${this.price} ₽</p>
+                </div>`;
+    }
+}
 
-/*const renderGoodsItem = (title = "наименование товара отсутствует", price = "цена товара отсутствует") => {
-    return `<div class="list-item"><img src="foto.jpg"><h3>${title}</h3><p>${price}</p></div>`
-};*/
+class GoodsList {
+    constructor() {
+        this.goods = [];
+    }
+    fetchGoods()  {
+        this.goods = [
+            { title: 'Shirt', price: 150 },
+            { title: 'Socks', price: 350 },
+            { title: 'Jacket', price: 450 },
+            { title: 'Shoes', price: 250 },
+        ];
+    }
+    render() {
+        let listHtml = '';
+        this.goods.forEach(good => {
+            const goodItem = new GoodsItem(good.title, good.price);
+            listHtml += goodItem.render();
+        });
+        document.querySelector('.goods-list').innerHTML = listHtml;
+    }
+    amount() {
+        var arr = this.goods;
+        var sum = 0;
+        for (var i = 0; i < arr.length; i++) {
+            var price = arr[i].price;
+            sum += price;
+        }
+        console.log(sum);
+    }
+}
 
-const renderGoodsList = (list = "список товаров отсутствует") => {
-    const goodsList = list.map(item => {return `<div class="list-item"><img src="foto.jpg"><h3>${item.title}</h3><p>${item.price}</p></div>`});
-    document.querySelector('.list').innerHTML = goodsList.join("");
-};
-
-renderGoodsList(goods);
+const list = new GoodsList();
+list.fetchGoods();
+list.render();
+list.amount();
