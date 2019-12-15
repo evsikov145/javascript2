@@ -1,99 +1,88 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Lesson 1</title>
+    <title>eShop</title>
     <link rel="stylesheet" href="reset.css">
-    <link rel="stylesheet" href="chat.css">
+    <link rel="stylesheet" href="widgets/chat/style.css">
     <style>
-        header {
+        .header {
+            padding: 10px 20px;
+            border-bottom: 1px solid #c0c0c0;
             display: flex;
-            border-bottom: 1px solid #000;
-            justify-content: flex-end;
-            margin: 0 auto;
-            padding: 20px 60px;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            position: relative;
         }
         .cart-button {
-            padding: 10px 30px;
-            border-radius: 5px;
-            font-weight: bold;
+            -webkit-appearance: none;
+            border: none;
+            background-color: #46a5fc;
+            color: #fff;
+            border-radius: 4px;
+            padding: 5px 10px;
+            order: 1;
         }
         .goods-list {
-            margin-top: 60px;
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-evenly;
-            align-items: center;
+            max-width: 1280px;
+            margin: 0 auto;
         }
         .goods-item {
-            max-width: 300px;
-            min-height: 400px;
-            border: 1px solid #000;
-            border-radius: 5px;
-            margin: 20px;
+            padding: 20px;
+            margin-left: 20px;
+            margin-bottom: 20px;
+            width: calc(100% / 3 - 60px);
+            background-color: #f1f1f1;
         }
-
-        .goods__img {
-            width: 100%;
-        }
-
-        .goods__title {
-            font-size: 30px;
-            padding-left: 20px;
-            text-transform: uppercase;
-            text-decoration: underline;
-            margin-top: 40px;
-        }
-
-        .goods__text {
-            padding-left: 20px;
-            margin-top: 20px;
-            font-size: 24px;
-        }
-        
-        .goods__button {
-            margin-top: 40px;
-            padding: 10px 30px;
-            border-radius: 5px;
+        .title {
+            font-size: 18px;
             font-weight: bold;
+        }
+        .goods-title {
+            margin-bottom: 20px;
+        }
+        .goods-btn {
             float: right;
-            margin-right: 20px;
+        }
+        .cart {
+            position: absolute;
+            top: 100%;
+            display: none;
+            background: #fff;
+            border: 1px solid #f1f1f1;
+            border-radius: 5px;
+            width: 500px;
+            min-height: 400px;
+            text-align: center;
+            padding-top: 20px;
+            right: 0;
+        }
+        .active {
+            display: block;
+        }
+        .cart-cell {
+            margin: 20px 0;
+            
+        }
+        .cart-cell:hover {
+            cursor: pointer;
+            background: #46a5fc;
         }
     </style>
 </head>
 <body>
-    <header>
-        <button class="cart-button">Корзина</button>
-    </header>
-    <main>
-        <div class="goods-list">
-            
-        </div>
-    </main>
-    <footer>
-        <div class="chat-button">
-                <p class="chat-button__text">Чат</p>
-        </div>
-            <div class="chat-room">
-                <div class="chat-close"></div>
-                    <div class="chat-header">
-                        <img class="chat__img" src="avatar.svg" alt="avatar">
-                        <h4 class="chat__author">Тэглайн</h4>
-                        <p class="chat__profession">Консультант</p>
-                    </div>
-                    <div class="chat-content">
-                            
-                        <p class="chat__text">Здравствуйте! Я могу вам чем-то помочь?<span class="time">09:53</span></p>
-                    </div>
-                    <div class="chat-footer">
-                        <textarea rows="5" id="input" placeholder="Введите сообщение и
-нажмите Enter"></textarea>
-                        <span class="clip"></span>
-                    </div>
-                </div>
-    </footer>
-    <script src="index.js"></script>
+<header class="header">
+    <button class="cart-button">Корзина</button>
+</header>
+<main>
+    <div class="goods-list"></div>
+</main>
+<script src="index.js"></script>
+<script src="widgets/chat/main.js"></script>
 </body>
 </html>
