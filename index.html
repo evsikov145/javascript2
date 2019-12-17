@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>eShop</title>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="widgets/chat/style.css">
+    <style>
+        .header {
+            padding: 10px 20px;
+            border-bottom: 1px solid #c0c0c0;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        .cart-button {
+            -webkit-appearance: none;
+            border: none;
+            background-color: #46a5fc;
+            color: #fff;
+            border-radius: 4px;
+            padding: 5px 10px;
+            order: 1;
+        }
+        .goods-list {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        .goods-item {
+            padding: 20px;
+            margin-left: 20px;
+            margin-bottom: 20px;
+            width: calc(100% / 3 - 60px);
+            background-color: #f1f1f1;
+        }
+        .title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .goods-title {
+            margin-bottom: 20px;
+        }
+        .goods-btn {
+            float: right;
+        }
+        .cart {
+            position: absolute;
+            top: 100%;
+            display: none;
+            background: #fff;
+            border: 1px solid #f1f1f1;
+            border-radius: 5px;
+            width: 500px;
+            min-height: 400px;
+            text-align: center;
+            padding-top: 20px;
+            right: 0;
+        }
+        .active {
+            display: block;
+        }
+        .cart-cell {
+            margin: 20px 0;
+            
+        }
+        .cart-cell:hover {
+            cursor: pointer;
+            background: #46a5fc;
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <button class="cart-button">Корзина</button>
+</header>
+<main>
+    <div class="goods-list"></div>
+</main>
+<script src="index.js"></script>
+<script src="widgets/chat/main.js"></script>
+</body>
+</html>
