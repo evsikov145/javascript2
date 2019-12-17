@@ -1,6 +1,8 @@
 const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
-function makeGETRequest(url, callback) {
-    let xhr;
+
+function makeGETRequest(url) {    //1. Переделайте makeGETRequest() так, чтобы она использовала промисы. (+) 
+    return new Promise((resolve, reject) => {
+        let xhr;
     if (window.XMLHttpRequest) {
         xhr = new window.XMLHttpRequest();
     } else {
@@ -8,13 +10,22 @@ function makeGETRequest(url, callback) {
     }
 
     xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            const body = JSON.parse(xhr.responseText);
-            callback(body)
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                const body = JSON.parse(xhr.responseText);
+                resolve(body)
+            } else {
+                reject(xhr.responseText)
+            }
         }
-    };
+    }
+    xhr.onerror = function (err) {
+        reject(err);
+    }
     xhr.open('GET', url);
     xhr.send();
+    
+});
 }
 
 class GoodsItem {
@@ -39,22 +50,12 @@ class GoodsList { //2. Добавьте в соответствующие кла
         this.head = document.querySelector('.header');
     }
     
-    fetchGoods(cb)  {       //1. Переделайте makeGETRequest() так, чтобы она использовала промисы. (+) 
-        makeGETRequest(`${API_URL}/catalogData.json`, (goods) => { 
-            return new Promise ((resolve, reject) => {
-                setTimeout(() => {
-                    if(goods) {
-                        this.goods = goods;
-                        cb(goods);
-                        resolve(cb);
-                    } else {
-                        reject('Error')
-                    }
-                }, 1000);
-            });
-            
-        });
-    }
+    fetchGoods()  { 
+        return makeGETRequest(`${API_URL}/catalogData.json`).then((goods) => { 
+            this.goods = goods;
+            }); 
+        }
+    
     totalPrice() {
         return this.goods.reduce((accum, item) => {
             if (item.price) accum += item.price;
@@ -146,7 +147,7 @@ class CartItem extends GoodsItem {
 }
 
 const list = new GoodsList();
-list.fetchGoods(() => {
+list.fetchGoods().then(() => {
     list.render();
     list.addItem();
     list.showCart();
