@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>eShop</title>
+  <link rel="stylesheet" href="reset.css">
+  <style>
+    .header {
+      padding: 10px 20px;
+      border-bottom: 1px solid #c0c0c0;
+      margin-bottom: 40px;
+    }
+    .container {
+      max-width: 1280px;
+      padding: 0 20px;
+      display: flex;
+      margin: 0 auto;
+      position: relative;
+    }
+    .cart-button {
+      -webkit-appearance: none;
+      border: none;
+      background-color: #46a5fc;
+      color: #fff;
+      border-radius: 4px;
+      padding: 5px 10px;
+      margin-left: auto;
+    }
+    .goods-list {
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    .goods-item {
+      cursor: pointer;
+      padding: 20px;
+      margin-left: 20px;
+      margin-bottom: 20px;
+      width: calc(100% / 3 - 60px);
+      background-color: #f1f1f1;
+    }
+    .title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .goods-title {
+      margin-bottom: 20px;
+    }
+    #cart {
+      display: block;
+      position: absolute;
+      top: 150%;
+      right: 0;
+      min-width: 300px;
+      min-height: 200px;
+      box-shadow: 0 0 10px 0;
+      padding: 20px;
+      text-align: center;
+      background: #fff;
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <header class="header">
+    <div class="container">
+      <form class="search-form">
+        <input type="text" class="search-input" v-model="searchLine"/>
+        <button class="search-button" @click.prevent="filterGoods(searchLine)">Искать</button>
+        
+      </form>
+      <button class="cart-button" @click="showCart(isVisibleCart)">Корзина</button>
+      <div id="cart" v-show="isVisibleCart"></div>
+    </div>
+  </header>
+  <main>
+    <div class="goods-list">
+      <div class="goods-item" v-for="good in filteredGoods" :key="good.id_product">
+        <h3>{{ good.product_name }}</h3>
+        <p>{{ good.price }}</p>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
