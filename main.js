@@ -5,7 +5,8 @@ const app = new Vue({
   data: {
     goods: [],
     filteredGoods: [],
-    searchLine: ''
+    searchLine: '',
+    isVisibleCart: false
   },
   methods: {
     makeGETRequest(url) {
@@ -35,12 +36,24 @@ const app = new Vue({
         xhr.send();
       });
     },
+    showCart(show) {
+      if(show) {
+        this.isVisibleCart = false;
+      } else {
+        this.isVisibleCart = true;
+      }
+    },
     filterGoods(searchLine) {
       var name = document.querySelectorAll('h3');
       name.forEach(element => {
-        if(element.textContent != searchLine) {
+        if(element.textContent != searchLine && searchLine.length > 0) {
           let parent = element.parentElement;
           parent.style.display = 'none';
+        } else if (searchLine.length == 0) {
+          let item = document.querySelectorAll('.goods-list');
+          item.forEach(element => {
+            element.style.display = 'flex';
+          });
         }
       });
       
