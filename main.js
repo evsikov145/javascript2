@@ -34,6 +34,16 @@ const app = new Vue({
         xhr.open('GET', url);
         xhr.send();
       });
+    },
+    filterGoods(searchLine) {
+      var name = document.querySelectorAll('h3');
+      name.forEach(element => {
+        if(element.textContent != searchLine) {
+          let parent = element.parentElement;
+          parent.style.display = 'none';
+        }
+      });
+      
     }
   },
   async mounted() {
@@ -44,7 +54,6 @@ const app = new Vue({
       console.error(e);
     }
   },
-  filterGoods() {
-
-  }
+  
 });
+

@@ -56,7 +56,8 @@
     <div class="container">
       <form class="search-form">
         <input type="text" class="search-input" v-model="searchLine"/>
-        <button type="submit" class="search-button" v-on:prevent.click="filterGoods">Искать</button>
+        <button class="search-button" v-on:click.prevent="filterGoods(searchLine)">Искать</button>
+        
       </form>
       <button class="cart-button">Корзина</button>
     </div>
