@@ -74,7 +74,9 @@
       <form class="search-form" @submit.prevent>
         <input type="text" class="search-input" v-model.trim="searchLine"/>
       </form>
-      <cart-btn></cart-btn>
+      <cart-btn
+      v-model="isVisibleCart"
+      ></cart-btn>
       <div class="cart-container" v-if="isVisibleCart"></div>
     </div>
   </header>

@@ -3,17 +3,13 @@ const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-sto
 const cart = [];
 
 Vue.component('cart-btn', {
+  props: {isVisibleCart: Boolean},
   template: `
     <button class="cart-button" @click="toggleCartVisibility">Корзина</button>
   `,
-  data() {
-    return {
-      isVisibleCart: false
-    }
-  },
-  computed: {
+  methods: {
     toggleCartVisibility() {
-     return this.isVisibleCart = !this.isVisibleCart;
+    this.$emit('button', this.isVisibleCart);
     }
   },
   
