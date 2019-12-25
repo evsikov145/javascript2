@@ -67,6 +67,9 @@
     .not-found-items {
       text-align: center;
     }
+    .goods-item__btn {
+      float: right;
+    }
   </style>
 </head>
 <body>
@@ -79,7 +82,7 @@
     </div>
   </header>
   <main>
-    <goods-list :goods="filteredGoods"></goods-list>
+    <goods-list :goods="filteredGoods" ></goods-list>
   </main>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>

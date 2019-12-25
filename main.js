@@ -2,27 +2,32 @@ const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-sto
 
 const cart = [];
 
-Vue.component('cart-component', {
+Vue.component('cart-component', { // корзина
   data() {
     return {
-      isVisibleCart: false
+      isVisibleCart: false,
+      name: ''
     }
   },
   template: `
   <div class = "cart-component" >
     <button class="cart-button"  @click='toggleCartVisibility'>Корзина</button>
-    <div class="cart-container"  v-if="isVisibleCart"></div>
+    <div class="cart-container"  v-if="isVisibleCart">
+    <p>{{name}}</p>
+    </div>
   </div>
   `,
   methods: {
     toggleCartVisibility() {
       this.isVisibleCart = !this.isVisibleCart;
       this.$emit('input', this.isVisibleCart);
-    }
+    },
+    
+    
   }, 
 });
 
-Vue.component('search-component', {
+Vue.component('search-component', { // поиск
   data() {
     return {
       searchLine: ''
@@ -40,19 +45,29 @@ Vue.component('search-component', {
   }
 });
 
-Vue.component('goods-item', {
+Vue.component('goods-item', { // продукт
   props: ['good'],
   template: `
-    <div class="goods-item">
+    <div class="goods-item" >
         <h3>{{ good.product_name }}</h3>
         <p>{{ good.price }}</p>
-        <button type="submit">Купить</button>
+        <button class="goods-item__btn"type="submit" @click.prevent = "addCart">Купить</button>
     </div>
   `,
+methods: {
+  addCart() {
+    this.$emit('addNameProduct', this.good.product_name)
+  }
+}
 });
 
-Vue.component('goods-list', {
+Vue.component('goods-list', { // список продуктов
   props: ['goods'],
+  data() {
+    return {
+      cartItem: []
+    }
+  },
   computed: {
     isGoodsEmpty() {
       return this.goods.length === 0;
@@ -60,20 +75,27 @@ Vue.component('goods-list', {
   },
   template: `
     <div class="goods-list" v-if="!isGoodsEmpty">
-      <goods-item v-for="good in goods" :good="good" :key="good.id_product"></goods-item>
+      <goods-item v-for="good in goods" :good="good" :key="good.id_product" @addNameProduct = "addProduct"></goods-item>
     </div>
     <div class="not-found-items" v-else>
       <h2>Нет данных</h2>
     </div>
   `,
+  methods: {
+    
+    addProduct(i) { // Добавление наименованрий в список товаров
+      this.cartItem.push(i);
+    },
+  }
 });
 
-const app = new Vue({
+const app = new Vue({ // глобальный родитель
   el: '#app',
   data: {
     goods: [],
     searchLine: '',
     isVisibleCart: false,
+    cartItem: []
   },
   methods: {
     makeGETRequest(url) {
@@ -105,7 +127,8 @@ const app = new Vue({
     },
     searchValues(i) {
       this.searchLine = i;
-    }
+    },
+    
     
   },
   computed: {
