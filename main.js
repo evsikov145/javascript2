@@ -2,17 +2,42 @@ const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-sto
 
 const cart = [];
 
-Vue.component('cart-btn', {
-  props: { value : Boolean },
+Vue.component('cart-component', {
+  data() {
+    return {
+      isVisibleCart: false
+    }
+  },
   template: `
-    <button class="cart-button" @click="toggleCartVisibility">Корзина</button>
+  <div class = "cart-component" >
+    <button class="cart-button"  @click='toggleCartVisibility'>Корзина</button>
+    <div class="cart-container"  v-if="isVisibleCart"></div>
+  </div>
   `,
   methods: {
     toggleCartVisibility() {
-    this.$emit('input', !this.value);
+      this.isVisibleCart = !this.isVisibleCart;
+      this.$emit('input', this.isVisibleCart);
+    }
+  }, 
+});
+
+Vue.component('search-component', {
+  data() {
+    return {
+      searchLine: ''
     }
   },
-  
+  template : `
+  <form class="search-form" @submit.prevent="sendRequest">
+    <input type="text" class="search-input" v-model.trim="searchLine"/>
+  </form>
+  `,
+  methods: {
+    sendRequest() {
+      this.$emit('request',this.searchLine);
+    }
+  }
 });
 
 Vue.component('goods-item', {
@@ -21,6 +46,7 @@ Vue.component('goods-item', {
     <div class="goods-item">
         <h3>{{ good.product_name }}</h3>
         <p>{{ good.price }}</p>
+        <button type="submit">Купить</button>
     </div>
   `,
 });
@@ -77,6 +103,9 @@ const app = new Vue({
         xhr.send();
       });
     },
+    searchValues(i) {
+      this.searchLine = i;
+    }
     
   },
   computed: {
