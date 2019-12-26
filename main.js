@@ -3,10 +3,10 @@ const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-sto
 const cart = [];
 
 Vue.component('cart-component', { // корзина
+  props: ['cartItem'],
   data() {
     return {
       isVisibleCart: false,
-      name: ''
     }
   },
   template: `
@@ -28,6 +28,7 @@ Vue.component('cart-component', { // корзина
 });
 
 Vue.component('search-component', { // поиск
+  
   data() {
     return {
       searchLine: ''
@@ -56,18 +57,13 @@ Vue.component('goods-item', { // продукт
   `,
 methods: {
   addCart() {
-    this.$emit('addNameProduct', this.good.product_name)
+    this.$emit('add_name_product', this.good.product_name)
   }
 }
 });
 
 Vue.component('goods-list', { // список продуктов
   props: ['goods'],
-  data() {
-    return {
-      cartItem: []
-    }
-  },
   computed: {
     isGoodsEmpty() {
       return this.goods.length === 0;
@@ -75,18 +71,15 @@ Vue.component('goods-list', { // список продуктов
   },
   template: `
     <div class="goods-list" v-if="!isGoodsEmpty">
-      <goods-item v-for="good in goods" :good="good" :key="good.id_product" @addNameProduct = "addProduct"></goods-item>
+      <goods-item v-for="good in goods" :good="good" :key="good.id_product" @add_name_product="addProduct"></goods-item>
     </div>
     <div class="not-found-items" v-else>
       <h2>Нет данных</h2>
     </div>
   `,
-  methods: {
-    
-    addProduct(i) { // Добавление наименованрий в список товаров
-      this.cartItem.push(i);
-    },
-  }
+  addProduct(i) { // Добавление наименований в список товаров
+    this.$emit('add_product_in_cart', i);
+  },
 });
 
 const app = new Vue({ // глобальный родитель
@@ -128,7 +121,9 @@ const app = new Vue({ // глобальный родитель
     searchValues(i) {
       this.searchLine = i;
     },
-    
+    addInCart(i) {
+      this.cartItem.push(i);
+    }
     
   },
   computed: {

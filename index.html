@@ -82,7 +82,7 @@
     </div>
   </header>
   <main>
-    <goods-list :goods="filteredGoods" ></goods-list>
+    <goods-list :goods="filteredGoods" @add_product_in_cart="addInCart"></goods-list>
   </main>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
