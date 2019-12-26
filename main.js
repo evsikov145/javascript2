@@ -13,7 +13,9 @@ Vue.component('cart-component', { // корзина
   <div class = "cart-component" >
     <button class="cart-button"  @click='toggleCartVisibility'>Корзина</button>
     <div class="cart-container"  v-if="isVisibleCart">
-    <p></p>
+    <p v-for="(item, index) in cartItem">
+    {{index}} - {{item}}
+    </p>
     </div>
   </div>
   `,
@@ -52,7 +54,7 @@ Vue.component('goods-item', { // продукт
     <div class="goods-item" >
         <h3>{{ good.product_name }}</h3>
         <p>{{ good.price }}</p>
-        <button class="goods-item__btn"type="submit" @click = "addCart">Купить</button>
+        <button class="goods-item__btn" @click = "addCart">Купить</button>
     </div>
   `,
 methods: {
@@ -77,9 +79,12 @@ Vue.component('goods-list', { // список продуктов
       <h2>Нет данных</h2>
     </div>
   `,
-  addProduct(i) { // Добавление наименований в список товаров
+  methods: {
+    addProduct(i) { // Добавление наименований в список товаров
     this.$emit('add_product_in_cart', i);
   },
+  }
+  
 });
 
 const app = new Vue({ // глобальный родитель
