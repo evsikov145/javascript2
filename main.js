@@ -68,8 +68,8 @@ Vue.component('goods-list', {
     }
   },
   methods: {
-    postList(i) {
-      this.$emit('post-list', i)
+    postList(data) {
+      this.$emit('post-list', data)
     }
   },
   template: `
@@ -123,8 +123,7 @@ const app = new Vue({
         xhr.send();
       });
     },
-    makePOSTRequest(data) {
-      console.log(data)
+    makePOSTRequest(url, data) {
       return new Promise((resolve, reject) => {
         let xhr;
         if (window.XMLHttpRequest) {
@@ -147,7 +146,7 @@ const app = new Vue({
           reject(err);
         };
 
-        xhr.open('POST', `data/cart.json`);
+        xhr.open('POST', url);
         xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         xhr.send(data);
       });
@@ -155,6 +154,13 @@ const app = new Vue({
     toggleCartVisibility() {
       this.$refs.cart.toggleVisibility();
     },
+    makePost(data) {
+        try{
+          this.makePOSTRequest('/cart', JSON.stringify(data));
+      } catch (e){
+          console.error(e);
+      }
+    }
   },
   computed: {
     isSearchActive() {

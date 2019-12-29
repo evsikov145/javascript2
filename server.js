@@ -19,7 +19,6 @@ app.post('/cart', (req, res) => {
   fs.readFile('data/cart.json', 'utf-8', (err, data) => {
     if (err) res.sendStatus(500);
     const cart = JSON.parse(data);
-   
     cart.push(item);
     fs.writeFile('data/cart.json', JSON.stringify(cart), (err) => {
       if (err) res.sendStatus(500);
