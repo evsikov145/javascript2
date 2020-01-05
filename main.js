@@ -30,13 +30,19 @@ Vue.component('cart', {
   methods: {
     toggleVisibility() {
       this.isVisibleCart = !this.isVisibleCart;
+    },
+    deleteFromCart(index) {
+      this.cart.splice(index, 1);
+      this.cart = [...this.cart];
+      this.$emit('delete', index);
     }
   },
   template: `
     <div class="cart-container" v-if="isVisibleCart">
       <ul>
-        <li v-for="good in cart">
+        <li v-for="(good, index) in cart">
            {{good.product_name}}
+           <button @click="deleteFromCart(index)">X</button>
         </li>
       </ul>
     </div>
@@ -122,6 +128,32 @@ const app = new Vue({
         xhr.send();
       });
     },
+    makeDELETERequest(url) {
+      return new Promise((resolve, reject) => {
+        let xhr;
+        if (window.XMLHttpRequest) {
+          xhr = new window.XMLHttpRequest();
+        } else {
+          xhr = new window.ActiveXObject('Microsoft.XMLHTTP');
+        }
+
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+              resolve(xhr.responseText);
+            } else {
+              reject(xhr.responseText);
+            }
+          }
+        };
+        xhr.onerror = function (err) {
+          reject(err);
+        };
+
+        xhr.open('DELETE', url);
+        xhr.send();
+      });
+    },
     makePOSTRequest(url, data) {
       return new Promise((resolve, reject) => {
         let xhr;
@@ -154,6 +186,10 @@ const app = new Vue({
     },
     async buy(good) {
       await this.makePOSTRequest('/cart', good);
+      cart.push(good);
+    },
+    deleteFromCart(index) {
+      this.makeDELETERequest(`/cart/${index}`)
     }
   },
   computed: {
@@ -166,11 +202,15 @@ const app = new Vue({
       return this.goods.filter((good) => regexp.test(good.product_name));
     },
   },
-  async mounted() {
-    try {
-      this.goods = await this.makeGETRequest(`/catalog`);
-    } catch (e) {
+  mounted() {
+    Promise.all([
+      this.makeGETRequest('/catalog'),
+      this.makeGETRequest('/cart')
+    ]).then(([catalogData, cartData])=> {
+      this.goods = catalogData;
+      cart.push(...cartData);
+    }).catch(() => {
       this.setError('Товары не найдены');
-    }
+    })
   }
 });
