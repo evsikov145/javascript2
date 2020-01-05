@@ -47,8 +47,7 @@ Vue.component('goods-item', {
   props: ['good'],
   methods: {
     buy() {
-      cart.push(this.good);
-      this.$emit('post-item', cart);
+      this.$emit('buy', this.good);
     }
   },
   template: `
@@ -68,13 +67,13 @@ Vue.component('goods-list', {
     }
   },
   methods: {
-    postList(data) {
-      this.$emit('post-list', data)
+    buy(good) {
+      this.$emit('buy', good);
     }
   },
   template: `
     <div class="goods-list" v-if="!isGoodsEmpty">
-      <goods-item @post-item = "postList" v-for="good in goods" :good="good" :key="good.id_product"></goods-item>
+      <goods-item v-for="good in goods" :good="good" :key="good.id_product" @buy='buy'></goods-item>
     </div>
     <div class="not-found-items" v-else>
       <h2>Нет данных</h2>
@@ -135,8 +134,7 @@ const app = new Vue({
         xhr.onreadystatechange = function () {
           if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-              const body = JSON.parse(xhr.responseText);
-              resolve(body)
+              resolve(xhr.responseText);
             } else {
               reject(xhr.responseText);
             }
@@ -148,18 +146,14 @@ const app = new Vue({
 
         xhr.open('POST', url);
         xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-        xhr.send(data);
+        xhr.send(JSON.stringify(data));
       });
     },
     toggleCartVisibility() {
       this.$refs.cart.toggleVisibility();
     },
-    makePost(data) {
-        try{
-          this.makePOSTRequest('/cart', JSON.stringify(data));
-      } catch (e){
-          console.error(e);
-      }
+    async buy(good) {
+      await this.makePOSTRequest('/cart', good);
     }
   },
   computed: {

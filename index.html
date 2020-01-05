@@ -106,7 +106,7 @@
     </div>
   </header>
   <main :class="{['search-active']: searchLine.length > 0}">
-    <goods-list :goods="filteredGoods" @post-list = "makePost"></goods-list>
+    <goods-list :goods="filteredGoods" @buy='buy'></goods-list>
   </main>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
