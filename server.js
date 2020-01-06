@@ -1,8 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
+const cors = require('cors');
 
 const app = express();
+app.use(cors());
 
 app.use(express.static('.'));
 app.use(bodyParser.json());
@@ -29,7 +31,7 @@ app.post('/cart', (req, res) => {
     cart.push(item);
     fs.writeFile('data/cart.json', JSON.stringify(cart), (err) => {
       if (err) res.sendStatus(500);
-      res.sendStatus(200);
+      res.json(cart);
     })
   });
 });
@@ -42,7 +44,7 @@ app.delete('/cart/:id', (req, res) => {
     cart.splice(id , 1);
     fs.writeFile('data/cart.json', JSON.stringify(cart), (err) => {
       if (err) res.sendStatus(500);
-      res.sendStatus(200);
+      res.json(cart)
     })
   });
 });
