@@ -107,7 +107,7 @@
     <div class="container">
       <search :search-line.sync="searchLine"></search>
       <button class="cart-button" @click="toggleCartVisibility">Корзина</button>
-      <cart ref="cart" @delete = 'deleteFromCart'></cart>
+      <cart ref="cart" @delete = 'deleteFromCart'/>
     </div>
   </header>
   <main :class="{['search-active']: searchLine.length > 0}">
