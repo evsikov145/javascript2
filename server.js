@@ -30,7 +30,7 @@ app.post('/cart', (req, res) => {
     cart.push(item);
     fs.writeFile('data/cart.json', JSON.stringify(cart), (err) => {
       if (err) res.sendStatus(500);
-      res.JSON(cart);
+      res.json(cart);
     })
   });
 });
@@ -43,7 +43,7 @@ app.delete('/cart/:id', (req, res) => {
     cart.splice(id , 1);
     fs.writeFile('data/cart.json', JSON.stringify(cart), (err) => {
       if (err) res.sendStatus(500);
-      res.JSON(cart);
+      res.json(cart);
     })
   });
 });
