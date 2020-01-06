@@ -1,71 +1,9 @@
 const cart = [];
 
 import {search} from './components/search.js';
-
-Vue.component('cart', {
-  data: () => ({
-    cart,
-    isVisibleCart: false,
-  }),
-  methods: {
-    toggleVisibility() {
-      this.isVisibleCart = !this.isVisibleCart;
-    },
-    deleteFromCart(index) {
-      this.cart.splice(index, 1);
-      this.cart = [...this.cart];
-      this.$emit('delete', index);
-    }
-  },
-  template: `
-    <div class="cart-container" v-if="isVisibleCart">
-      <ul>
-        <li v-for="(good, index) in cart">
-           {{good.product_name}}
-           <button @click="deleteFromCart(index)">X</button>
-        </li>
-      </ul>
-    </div>
-  `
-});
-
-Vue.component('goods-item', {
-  props: ['good'],
-  methods: {
-    buy() {
-      this.$emit('buy', this.good);
-    }
-  },
-  template: `
-    <div class="goods-item">
-        <h3>{{ good.product_name }}</h3>
-        <p>{{ good.price }}</p>
-        <button @click="buy">Купить</button>
-    </div>
-  `,
-});
-
-Vue.component('goods-list', {
-  props: ['goods'],
-  computed: {
-    isGoodsEmpty() {
-      return this.goods.length === 0;
-    }
-  },
-  methods: {
-    buy(good) {
-      this.$emit('buy', good);
-    }
-  },
-  template: `
-    <div class="goods-list" v-if="!isGoodsEmpty">
-      <goods-item v-for="good in goods" :good="good" :key="good.id_product" @buy='buy'></goods-item>
-    </div>
-    <div class="not-found-items" v-else>
-      <h2>Нет данных</h2>
-    </div>
-  `,
-});
+import {cartContainer} from './components/cart.js';
+import {item} from './components/item.js';
+import {list} from './components/list.js';
 
 const app = new Vue({
   el: '#app',
