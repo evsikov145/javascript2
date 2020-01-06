@@ -130,7 +130,7 @@ const app = new Vue({
 
       this.cart = cart;
     },
-   async deleteFromCart(index) {
+    async deleteFromCart(index) {
         const cart = await this.makeDELETERequest(`/cart/${index}`);
         this.cart = JSON.parse(cart);
     }

@@ -7,7 +7,7 @@
     "example": "example"
   },
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --mode production ./main.js --output ./dist/build.js --watch",
     "start": "node server.js"
   },
   "author": "",
