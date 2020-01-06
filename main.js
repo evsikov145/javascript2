@@ -1,5 +1,3 @@
-const cart = [];
-
 import {search} from './components/search.js';
 import {cartContainer} from './components/cart.js';
 import {item} from './components/item.js';
@@ -11,7 +9,28 @@ const app = new Vue({
     goods: [],
     searchLine: '',
     error: '',
+    cart: [],
+    v_cart:false
   },
+  template: `
+    <div>
+      <transition name="fade">
+        <div class="notification error" v-if="error && error.length">
+          {{ error }}
+        </div>
+      </transition>
+      <header class="header">
+        <div class="container">
+          <search :search-line.sync="searchLine"></search>
+          <button class="cart-button" @click="toggleCartVisibility">Корзина</button>
+          <cart v-if="v_cart" @delete = 'deleteFromCart' :cart="cart"></cart>
+        </div>
+      </header>
+      <main :class="{['search-active']: searchLine.length > 0}">
+        <goods-list :goods="filteredGoods" @buy='buy'></goods-list>
+      </main>
+    </div>
+  `,
   methods: {
     setError(e) {
       this.error = e.message || e;
@@ -20,6 +39,7 @@ const app = new Vue({
       }, 3500);
     },
     makeGETRequest(url) {
+      const baseUrl = 'http://localhost:3000';
       return new Promise((resolve, reject) => {
         let xhr;
         if (window.XMLHttpRequest) {
@@ -42,11 +62,12 @@ const app = new Vue({
           reject(err);
         };
 
-        xhr.open('GET', url);
+        xhr.open('GET', baseUrl + url);
         xhr.send();
       });
     },
     makeDELETERequest(url) {
+      const baseUrl = 'http://localhost:3000';
       return new Promise((resolve, reject) => {
         let xhr;
         if (window.XMLHttpRequest) {
@@ -68,11 +89,12 @@ const app = new Vue({
           reject(err);
         };
 
-        xhr.open('DELETE', url);
+        xhr.open('DELETE', baseUrl + url);
         xhr.send();
       });
     },
     makePOSTRequest(url, data) {
+      const baseUrl = 'http://localhost:3000';
       return new Promise((resolve, reject) => {
         let xhr;
         if (window.XMLHttpRequest) {
@@ -94,21 +116,30 @@ const app = new Vue({
           reject(err);
         };
 
-        xhr.open('POST', url);
+        xhr.open('POST', baseUrl + url);
         xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         xhr.send(JSON.stringify(data));
       });
     },
     toggleCartVisibility() {
-      this.$refs.cart.toggleVisibility();
+      this.v_cart = !this.v_cart;
     },
     async buy(good) {
-      await this.makePOSTRequest('/cart', good);
-      cart.push(good);
+      let cart = await this.makePOSTRequest('/cart', good);
+      cart = JSON.parse(cart);
+
+      this.cart = cart;
     },
-    deleteFromCart(index) {
-      this.makeDELETERequest(`/cart/${index}`)
+   async deleteFromCart(index) {
+        const cart = await this.makeDELETERequest(`/cart/${index}`);
+        this.cart = JSON.parse(cart);
     }
+  },
+  beforeMount() {
+    this.makeGETRequest('/cart')
+      .then(data => {
+        this.cart = data;
+      })
   },
   computed: {
     isSearchActive() {
