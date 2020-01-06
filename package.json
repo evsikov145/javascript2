@@ -7,11 +7,14 @@
     "example": "example"
   },
   "scripts": {
+    "build": "webpack",
     "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
   }
 }
